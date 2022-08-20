@@ -24,11 +24,9 @@ app.get('/', (req, res) => {
     res.render("index", {
         login: "Login",
         number: 8279000779,
+        numbers: 8000138845,
     });
-});
-app.getMaxListeners();
-app.get("/about",(req,res)=>{
-    res.render('about');
+
 });
 app.get('*', (req, res) => {
     res.render("404", {
