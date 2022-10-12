@@ -12,8 +12,7 @@ app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
 
 const request = require('request');
-const { urlencoded } = require('express');
-const { default: isEmail } = require('validator/lib/isemail');
+
 app.set(path.join(__dirname,'../resources/dbconnection/server.js'));
 const port = process.env.PORT || 8000;
 
