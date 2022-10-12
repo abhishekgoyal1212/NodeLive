@@ -1,0 +1,46 @@
+
+{{>header}}
+{{>headerlinks}}
+
+<div class="wrapper" style="background-image: url('images/bg-registration-form-2.jpg');">
+			<div class="inner">
+				<form action="/register-save" method="POST">
+					<h3>Registration Form</h3>
+					{{# if error}}
+					{{# each error}}
+					<p class="alert alert-danger">{{this.msg}}</p>
+					{{/each}}
+					{{/if}}
+					<div class="form-group">
+						<div class="form-wrapper">
+							<label for="">First Name</label>
+							<input type="text" class="form-control"  name="first_name">
+						</div>
+						<div class="form-wrapper">
+							<label for="">Last Name</label>
+							<input type="text" class="form-control"  name="last_name">
+						</div>
+					</div>
+					<div class="form-wrapper">
+						<label for="">Email</label>
+						<input type="text" class="form-control"  name="email">
+					</div>
+					<div class="form-wrapper">
+						<label for="">Password</label>
+						<input type="password" class="form-control"  name="password">
+					</div>
+					<div class="form-wrapper">
+						<label for="">Conform Password</label>
+						<input type="password" class="form-control"  name="conf_pass">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> I caccept the Terms of Use & Privacy Policy.
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					<button type="submit">Register Now</button>
+				</form>
+			</div>
+		</div>
+        {{>footer}}

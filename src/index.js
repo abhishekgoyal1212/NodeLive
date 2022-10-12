@@ -1,9 +1,20 @@
-// const { application , express } = require('express');
-const path = require('path');
 const express = require('express');
 const app = express();
+const alert = require('alert');
+const {body,validationResult } = require('express-validator');
+const path = require('path');
+require('../resources/dbconnection/server');
+const bcrypt = require('bcryptjs');
+const schama = require('../resources/dbconnection/schama');  
 const hbs = require("hbs");
+var bodyparser = require('body-parser');
+app.use(express.json());
+app.use(bodyparser.urlencoded({extended:true}));
+
 const request = require('request');
+const { urlencoded } = require('express');
+const { default: isEmail } = require('validator/lib/isemail');
+app.set(path.join(__dirname,'../resources/dbconnection/server.js'));
 const port = process.env.PORT || 8000;
 
 
@@ -27,6 +38,53 @@ app.get('/', (req, res) => {
         numbers: 8000138845,
     });
 
+});
+app.get('/register', (req,res) => {
+    res.render("front/register");
+});
+app.post('/register-save',
+body('email','Invalid Email Formate').notEmpty().isEmail(),
+body('first_name','First name field is require').notEmpty(),
+body('last_name','last name field is require').notEmpty(),
+body('password','password field is require').notEmpty(),
+body('conf_pass','Conform password field is require').notEmpty(),
+async(req,res) => {
+    try{
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            res.render("front/register",{error:errors.array({onlyFirstError: true})});
+            console.log({error:errors.array({onlyFirstError: true})});
+
+            // return res.status(400).json({ errors });
+        }else{
+            const inputs = (req.body); 
+            var password = inputs.password;
+            var conf_pass = inputs.conf_pass;
+            if(password === conf_pass){
+                const register =  new schama({
+                    first_name : inputs.first_name,
+                    lastname : inputs.last_name,
+                    email : inputs.email,
+                    password: bcrypt.hashSync(inputs.password,10),
+                });
+                const saveData =   await register.save();
+                if(saveData.save()){
+                    res.redirect("/");
+                }
+            }else{
+                 alert("passwords do not match");
+                // const err = [];
+                // err.push( {msg: "passwords do not match!! "});
+                // if(err.length > 0){
+                //     res.send('<script>alert(hello)</script>');
+                //   }
+                    // res.render("front/register",error);
+            }
+        }
+        
+    }catch(err){
+        console.log(err);
+    }
 });
 app.get('*', (req, res) => {
     res.render("404", {
@@ -55,7 +113,6 @@ app.get('*', (req, res) => {
 //         age: req.query.age
 //     })
 // });
-
 app.listen(port, () => {
     console.log(`Your Port is ${port} Create Sussessfully Create`);
 });
