@@ -54,7 +54,7 @@ async(req,res) => {
         if(!errors.isEmpty()){
             res.render("front/register",{error:errors.array({onlyFirstError: true})});
             console.log({error:errors.array({onlyFirstError: true})});
-
+            
             // return res.status(400).json({ errors });
         }else{
             const inputs = (req.body); 
