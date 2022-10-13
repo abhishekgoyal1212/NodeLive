@@ -1,11 +1,16 @@
 
 {{>header}}
 {{>headerlinks}}
-
 <div class="wrapper" style="background-image: url('images/bg-registration-form-2.jpg');">
 			<div class="inner">
 				<form action="/register-save" method="POST">
 					<h3>Registration Form</h3>
+					{{# if exiteuser}}
+					<p class="alert alert-danger">{{this.exiteuser}}</p>
+					{{/if}}
+					{{# if pass_error}}
+					<p class="alert alert-danger">{{this.pass_error}}</p>
+					{{/if}}
 					{{# if error}}
 					{{# each error}}
 					<p class="alert alert-danger">{{this.msg}}</p>
@@ -14,16 +19,16 @@
 					<div class="form-group">
 						<div class="form-wrapper">
 							<label for="">First Name</label>
-							<input type="text" class="form-control"  name="first_name">
+							<input type="text" class="form-control"  name="first_name" value="{{ old.first_name }}">
 						</div>
 						<div class="form-wrapper">
 							<label for="">Last Name</label>
-							<input type="text" class="form-control"  name="last_name">
+							<input type="text" class="form-control"  name="last_name" value="{{ old.last_name }}">
 						</div>
 					</div>
 					<div class="form-wrapper">
 						<label for="">Email</label>
-						<input type="text" class="form-control"  name="email">
+						<input type="text" class="form-control"  name="email" value="{{ old.email }}">
 					</div>
 					<div class="form-wrapper">
 						<label for="">Password</label>
@@ -40,6 +45,7 @@
 						</label>
 					</div>
 					<button type="submit">Register Now</button>
+					<button><a href="/login">Login</a></button>
 				</form>
 			</div>
 		</div>

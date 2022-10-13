@@ -12,12 +12,6 @@ const playlistSchema = new mongoose.Schema({
     email:{
         type:String,
         require:true,
-        // unique:[true,"Email already exite"],
-        // validate(value){
-        //     if(!validator.isEmail(value)){
-        //         throw new error("Invalid Email");
-        //     }
-        // }
     },
     password:{
         type:String,
